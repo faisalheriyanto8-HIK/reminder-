@@ -97,6 +97,22 @@ Catatan pembayaran: views dihitung tiap pukul 24:00 WIB, lalu ada masa tunggu 5 
 
 Cocok untuk otomatis: campaign **podcast/edukasi** dengan satu video sumber (mis. Indodax, David Noah, Sulianto). Campaign yang mewajibkan gabungan beberapa footage atau rekaman layar aplikasi (mis. Mobee) tetap perlu sentuhan manual di CapCut.
 
+## Campaign promo event (`promo.py`)
+
+Beberapa campaign bukan potong podcast, melainkan **video promo dari materi brand**: footage, banner resmi yang wajib tampil utuh, teks hook, dan CTA (contoh: Miranda Color Corner). Untuk campaign seperti ini pakai `promo.py` dengan file spec JSON:
+
+```bash
+python3 promo.py campaigns/miranda-promo.json            # render semua video
+python3 promo.py campaigns/miranda-promo.json --only 2   # video ke-2 saja
+```
+
+- **Segmen**: potongan video (`src`, `start`, `dur`) atau gambar diam (`image`, `dur`), disusun berurutan.
+- **`fit`**: `fill` (isi penuh 9:16), `blur` (utuh di tengah dengan latar blur), atau `pad` (utuh di tengah dengan latar warna; dipakai untuk banner resmi supaya tidak ter-crop).
+- **Teks**: style `Hook`, `Top`, `Bottom`, `Label`, `CtaTop`, `CtaBottom`, dengan waktu `t0`–`t1` dalam detik. Pakai `\N` untuk ganti baris.
+- **Musik latar** diambil dari `audio.src`. Hasil masuk ke `My Drive/CLIPPERS/<name>/` beserta `captions.txt`.
+
+Format lengkap spec ada di docstring `promo.py`.
+
 ## Alur kerja program clipping
 
 1. **Cari campaign** di platform program clipping (misalnya Whop "Content Rewards"/clipping, atau program resmi kreator/brand). Baca aturannya: bayaran per 1.000 views, platform yang diizinkan, durasi, wajib tag/sound/watermark atau tidak.

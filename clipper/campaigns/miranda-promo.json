@@ -1,0 +1,76 @@
+{
+  "name": "miranda-color-corner",
+  "base": "~/Movies/RAFAKA-Clipper/jobs/miranda-color-corner",
+  "audio": {"src": "materi/event-terakhir.mp4", "start": 0, "volume": 1.0},
+  "pad_color": "#F6E9E1",
+  "accent": "#F0479A",
+  "caption_tags": "@mirandahaircare #LiterallyMi #Miranda #MirandaHairColor #M1126C2KC",
+  "videos": [
+    {
+      "title": "Aul Mingse Koplo Disko di Miranda Color Corner",
+      "caption": "Aul, Mingse & Koplo Disko bakal ada di Miranda Color Corner! Datang ke Blok M Hub, Jakarta, 25–29 Nov 2026, 10.00–22.00 WIB. Free entry! (Free Hair Coloring: S&K berlaku)",
+      "segments": [
+        {"src": "materi/event-terakhir.mp4", "start": 4.97, "dur": 4.0, "fit": "fill"},
+        {"src": "materi/color-corner-2025.mp4", "start": 3.23, "dur": 4.0, "fit": "blur"},
+        {"image": "materi/banner1-activity.jpg", "dur": 4.5, "fit": "pad"},
+        {"src": "materi/event-terakhir.mp4", "start": 29.53, "dur": 6.2, "fit": "fill"},
+        {"image": "materi/banner2-lokasi.jpg", "dur": 5.5, "fit": "pad"}
+      ],
+      "texts": [
+        {"t0": 0, "t1": 4.0, "style": "Hook", "text": "AUL, MINGSE & KOPLO DISKO\\NBAKAL ADA DI MIRANDA\\NCOLOR CORNER!"},
+        {"t0": 0, "t1": 4.0, "style": "Label", "text": "Cuplikan event Miranda sebelumnya"},
+        {"t0": 4.0, "t1": 8.0, "style": "Top", "text": "Cobain warna rambut baru\\Nbareng bestie"},
+        {"t0": 4.0, "t1": 8.0, "style": "Label", "text": "Cuplikan Color Corner 2025"},
+        {"t0": 8.0, "t1": 12.5, "style": "Top", "text": "Ada apa aja di sana?"},
+        {"t0": 8.0, "t1": 12.5, "style": "Bottom", "text": "*Free Hair Coloring: syarat & ketentuan berlaku"},
+        {"t0": 18.7, "t1": 24.2, "style": "CtaTop", "text": "DATANG YUK, FREE ENTRY!"},
+        {"t0": 18.7, "t1": 24.2, "style": "CtaBottom", "text": "Blok M Hub, Jakarta\\N25-29 Nov 2026 | 10.00-22.00 WIB"}
+      ]
+    },
+    {
+      "title": "Mau ganti warna rambut tapi takut salah",
+      "caption": "Mau coba warna rambut baru tapi takut salah? Ada Color Match + free photostrip, Free Try On, Wall of Games & Free Hair Coloring* di Miranda Color Corner, Blok M Hub, 25–29 Nov 2026! Free entry. *S&K berlaku",
+      "segments": [
+        {"src": "materi/color-corner-2025.mp4", "start": 4.23, "dur": 4.0, "fit": "blur"},
+        {"src": "materi/event-terakhir.mp4", "start": 20.63, "dur": 4.5, "fit": "fill"},
+        {"image": "materi/banner1-activity.jpg", "dur": 4.5, "fit": "pad"},
+        {"src": "materi/color-corner-2025.mp4", "start": 12.63, "dur": 3.9, "fit": "blur"},
+        {"image": "materi/banner2-lokasi.jpg", "dur": 5.5, "fit": "pad"}
+      ],
+      "texts": [
+        {"t0": 0, "t1": 4.0, "style": "Hook", "text": "MAU GANTI WARNA RAMBUT\\NTAPI TAKUT SALAH?"},
+        {"t0": 0, "t1": 4.0, "style": "Label", "text": "Cuplikan Color Corner 2025"},
+        {"t0": 4.0, "t1": 8.5, "style": "Top", "text": "Seru-seruan rame-rame\\Nbareng bestie"},
+        {"t0": 4.0, "t1": 8.5, "style": "Label", "text": "Cuplikan event Miranda sebelumnya"},
+        {"t0": 8.5, "t1": 13.0, "style": "Top", "text": "Semua bisa kamu coba di sini"},
+        {"t0": 8.5, "t1": 13.0, "style": "Bottom", "text": "*Free Hair Coloring: syarat & ketentuan berlaku"},
+        {"t0": 13.0, "t1": 16.9, "style": "Top", "text": "Ajak temen kamu juga!"},
+        {"t0": 13.0, "t1": 16.9, "style": "Label", "text": "Cuplikan Color Corner 2025"},
+        {"t0": 16.9, "t1": 22.4, "style": "CtaTop", "text": "DATANG YUK, FREE ENTRY!"},
+        {"t0": 16.9, "t1": 22.4, "style": "CtaBottom", "text": "Blok M Hub, Jakarta\\N25-29 Nov 2026 | 10.00-22.00 WIB"}
+      ]
+    },
+    {
+      "title": "Cuma 5 hari di Blok M Hub",
+      "caption": "Cuma 5 hari! Miranda Color Corner di Blok M Hub, Jakarta, 25–29 Nov 2026, 10.00–22.00 WIB. Free entry, ajak temen kamu! (Free Hair Coloring: S&K berlaku)",
+      "segments": [
+        {"src": "materi/event-terakhir.mp4", "start": 29.53, "dur": 4.2, "fit": "fill"},
+        {"src": "materi/event-terakhir.mp4", "start": 8.47, "dur": 4.5, "fit": "fill"},
+        {"image": "materi/banner1-activity.jpg", "dur": 4.5, "fit": "pad"},
+        {"src": "materi/color-corner-2025.mp4", "start": 8.33, "dur": 4.3, "fit": "blur"},
+        {"image": "materi/banner2-lokasi.jpg", "dur": 5.5, "fit": "pad"}
+      ],
+      "texts": [
+        {"t0": 0, "t1": 4.2, "style": "Hook", "text": "CUMA 5 HARI\\NDI BLOK M HUB!"},
+        {"t0": 4.2, "t1": 8.7, "style": "Top", "text": "Event sebelumnya\\Nserame ini..."},
+        {"t0": 4.2, "t1": 8.7, "style": "Label", "text": "Cuplikan event Miranda sebelumnya"},
+        {"t0": 8.7, "t1": 13.2, "style": "Top", "text": "Kali ini ada apa aja?"},
+        {"t0": 8.7, "t1": 13.2, "style": "Bottom", "text": "*Free Hair Coloring: syarat & ketentuan berlaku"},
+        {"t0": 13.2, "t1": 17.5, "style": "Top", "text": "Jangan cuma lihat dari FYP!"},
+        {"t0": 13.2, "t1": 17.5, "style": "Label", "text": "Cuplikan Color Corner 2025"},
+        {"t0": 17.5, "t1": 23.0, "style": "CtaTop", "text": "25-29 NOV, FREE ENTRY!"},
+        {"t0": 17.5, "t1": 23.0, "style": "CtaBottom", "text": "Miranda Color Corner\\NBlok M Hub, Jakarta | 10.00-22.00 WIB"}
+      ]
+    }
+  ]
+}
