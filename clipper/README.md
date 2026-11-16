@@ -26,7 +26,7 @@ brew install yt-dlp whisper-cpp ffmpeg-full
 ## Pemakaian
 
 ```bash
-cd clipper
+cd clippers   # folder hasil git clone
 
 # pipeline lengkap dari link
 python3 clipper.py run "https://www.youtube.com/watch?v=XXXX" -n 5
