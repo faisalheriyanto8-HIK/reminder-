@@ -352,13 +352,27 @@ def video_filter(mode: str, focus_x: float, ass_name: str) -> str:
     return f"{base},setsar=1,ass='{ass}'[v]"
 
 
-def render(job: Path, opt: argparse.Namespace) -> list[Path]:
+def output_dir(job: Path, opt: argparse.Namespace) -> Path:
+    """Tujuan klip jadi: --out > $CLIPPER_OUT > Google Drive 'My Drive/CLIPPERS' > jobs/<nama>/out."""
+    if getattr(opt, "local", False):
+        return job / "out"
+    base = getattr(opt, "out", None) or os.environ.get("CLIPPER_OUT")
+    if base:
+        return Path(base).expanduser() / job.name
+    drives = sorted(Path("~/Library/CloudStorage").expanduser().glob("GoogleDrive-*/My Drive/CLIPPERS"))
+    if drives:
+        return drives[0] / job.name
+    return job / "out"
+
+
+def render(job: Path, opt: argparse.Namespace) -> tuple[list[Path], Path]:
     ffmpeg = need_ffmpeg_ass()
     src = job / "source.mp4"
     words = json.loads((job / "words.json").read_text())
     clips = json.loads((job / "clips.json").read_text())
-    out_dir = job / "out"
-    out_dir.mkdir(exist_ok=True)
+    out_dir = output_dir(job, opt)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    log(f"Output ke: {out_dir}")
     sel = set(opt.only) if getattr(opt, "only", None) else None
 
     outputs = []
@@ -366,7 +380,7 @@ def render(job: Path, opt: argparse.Namespace) -> list[Path]:
         if sel and i not in sel:
             continue
         name = f"{i:02d}-{slugify(c.get('title', 'clip'))}"
-        ass_path = out_dir / f"{name}.ass"
+        ass_path = job / f"{name}.ass"  # subtitle sementara tetap lokal (tidak ikut sync Drive)
         ass_path.write_text(build_ass(c, words, opt), encoding="utf-8")
         out = out_dir / f"{name}.mp4"
         dur = c["end"] - c["start"]
@@ -382,7 +396,7 @@ def render(job: Path, opt: argparse.Namespace) -> list[Path]:
             "-pix_fmt", "yuv420p",  # fps ikut sumber (paksa 30 = frame dobel di video 25fps)
             "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
             "-movflags", "+faststart", str(out),
-        ], cwd=out_dir)
+        ], cwd=job)
         if not opt.keep_ass:
             ass_path.unlink(missing_ok=True)
         log(f"  ✓ {out.name}  ({time.time()-t0:.0f}s)")
@@ -398,7 +412,7 @@ def render(job: Path, opt: argparse.Namespace) -> list[Path]:
         f"{i:02d}. {c.get('title','')} {tags}".rstrip()
         + f"\n   ({fmt_ts(c['start'])}–{fmt_ts(c['end'])}) {c.get('reason','')}"
         for i, c in enumerate(clips, 1)), encoding="utf-8")
-    return outputs
+    return outputs, out_dir
 
 
 # ───────────────────────── CLI ─────────────────────────
@@ -416,6 +430,8 @@ def add_render_opts(p: argparse.ArgumentParser) -> None:
     g.add_argument("--hook", action="store_true", help="tampilkan teks hook di atas selama 3.5 detik pertama")
     g.add_argument("--fast", action="store_true", help="encode pakai hardware Mac (lebih cepat, file lebih besar)")
     g.add_argument("--keep-ass", action="store_true", help="simpan file subtitle .ass")
+    g.add_argument("--out", help="folder induk hasil klip (default: Google Drive 'My Drive/CLIPPERS' kalau ada)")
+    g.add_argument("--local", action="store_true", help="simpan hasil di jobs/<nama>/out, bukan di Drive")
 
 
 def main() -> None:
@@ -458,7 +474,7 @@ def main() -> None:
         job = job_dir(opt.job)
         if not (job / "clips.json").exists():
             die(f"{job}/clips.json tidak ada")
-        outs = render(job, opt)
+        outs, out_dir = render(job, opt)
     else:
         name = opt.name or (slugify(Path(opt.source).stem) if not opt.source.startswith("http")
                             else time.strftime("%Y%m%d-%H%M%S"))
@@ -478,11 +494,11 @@ def main() -> None:
         if not words:
             die("Transkrip kosong — apakah videonya ada suara orang bicara?")
         pick(job, words, opt.clips, opt.min, opt.max, opt.claude_model, brief)
-        outs = render(job, opt)
+        outs, out_dir = render(job, opt)
 
     print()
-    log(f"Selesai! {len(outs)} klip di: {job / 'out'}")
-    subprocess.run(["open", str(job / "out")], check=False)
+    log(f"Selesai! {len(outs)} klip di: {out_dir}")
+    subprocess.run(["open", str(out_dir)], check=False)
 
 
 if __name__ == "__main__":
