@@ -91,13 +91,18 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """ + "\n".join(ev) + "\n"
 
 
-def seg_filter(k: int, seg: dict, pad_color: str) -> str:
+def seg_filter(k: int, seg: dict, pad_color: str, area_bottom: int = 0) -> str:
     """Filter untuk input ke-k -> [s{k}] 1080x1920, fps tetap, durasi pas."""
     fit = seg.get("fit", "fill")
     dur = float(seg["dur"])
     src = f"[{k}:v]"
+    fx = min(max(float(seg.get("focus_x", 0.5)), 0.0), 1.0)
     if fit == "fill":      # isi penuh 9:16 (crop tepi)
-        body = f"{src}scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H}"
+        body = f"{src}scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H}:(iw-{W})*{fx:.3f}:0"
+    elif fit == "top":     # isi area atas saja (di atas overlay bawah), sisanya hitam
+        ah = H - area_bottom
+        body = (f"{src}scale={W}:{ah}:force_original_aspect_ratio=increase,crop={W}:{ah}:(iw-{W})*{fx:.3f}:0,"
+                f"pad={W}:{H}:0:0:color=black")
     elif fit == "blur":    # utuh di tengah, latar blur dari video yang sama
         body = (f"{src}split[b{k}][f{k}];"
                 f"[b{k}]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},"
@@ -130,17 +135,51 @@ def render_video(i: int, v: dict, spec: dict, base: Path, out_dir: Path, ffmpeg:
         else:
             cmd += ["-ss", f"{float(s.get('start', 0)):.3f}", "-t", f"{float(s['dur']):.3f}",
                     "-i", str(base / s["src"])]
-    a = spec.get("audio")
-    if a:
-        cmd += ["-ss", f"{float(a.get('start', 0)):.3f}", "-t", f"{total:.3f}", "-i", str(base / a["src"])]
-
     n = len(segs)
-    fc = ";".join(seg_filter(k, s, spec.get("pad_color", "#F6E9E1")) for k, s in enumerate(segs))
-    fc += ";" + "".join(f"[s{k}]" for k in range(n)) + f"concat=n={n}:v=1:a=0[cat];[cat]ass='{ass.name}'[v]"
+    nxt = n                      # indeks input berikutnya
+    a = spec.get("audio")
+    seg_audio = a == "segments"  # pakai audio asli tiap potongan (mis. suara caster)
+    if a and not seg_audio:
+        cmd += ["-ss", f"{float(a.get('start', 0)):.3f}", "-t", f"{total:.3f}", "-i", str(base / a["src"])]
+        a_idx, nxt = nxt, nxt + 1
+    ov = spec.get("overlay")     # overlay bawah ter-loop sepanjang video, mis. banner sponsor
+    ov_h = 0
+    if ov:
+        cmd += ["-stream_loop", "-1", "-t", f"{total:.3f}", "-i", str(base / ov["src"])]
+        ov_idx, nxt = nxt, nxt + 1
+        ov_h = int(ov.get("height", 0))
+
+    fc = ";".join(seg_filter(k, s, spec.get("pad_color", "#F6E9E1"), ov_h) for k, s in enumerate(segs))
+    fc += ";" + "".join(f"[s{k}]" for k in range(n)) + f"concat=n={n}:v=1:a=0[cat]"
+    last = "cat"
+    if ov:
+        # matikan overlay di potongan yang "no_overlay" (mis. penutup yang menampilkan overlay penuh)
+        t, off = 0.0, []
+        for s in segs:
+            if s.get("no_overlay"):
+                off.append(f"between(t,{t:.3f},{t + float(s['dur']):.3f})")
+            t += float(s["dur"])
+        enable = f":enable='not({'+'.join(off)})'" if off else ""
+        fc += (f";[{ov_idx}:v]scale={W}:-2,fps={FPS},setsar=1,setpts=PTS-STARTPTS[ovl];"
+               f"[cat][ovl]overlay=0:H-h:eof_action=repeat{enable}[cov]")
+        last = "cov"
+    fc += f";[{last}]ass='{ass.name}'[v]"
     maps = ["-map", "[v]"]
-    if a:
+    if seg_audio:
+        parts = []
+        for k, s in enumerate(segs):
+            d = float(s["dur"])
+            if "image" in s or s.get("mute"):
+                parts.append(f"anullsrc=r=48000:cl=stereo,atrim=duration={d:.3f}[a{k}]")
+            else:
+                parts.append(f"[{k}:a]aresample=48000,aformat=channel_layouts=stereo,"
+                             f"atrim=duration={d:.3f},asetpts=PTS-STARTPTS[a{k}]")
+        fc += ";" + ";".join(parts) + ";" + "".join(f"[a{k}]" for k in range(n)) + \
+              f"concat=n={n}:v=0:a=1,afade=t=out:st={max(total - 1.0, 0):.3f}:d=1.0[a]"
+        maps += ["-map", "[a]"]
+    elif a:
         vol = float(a.get("volume", 1.0))
-        fc += (f";[{n}:a]atrim=duration={total:.3f},asetpts=PTS-STARTPTS,volume={vol},"
+        fc += (f";[{a_idx}:a]atrim=duration={total:.3f},asetpts=PTS-STARTPTS,volume={vol},"
                f"afade=t=in:d=0.3,afade=t=out:st={max(total - 1.5, 0):.3f}:d=1.5[a]")
         maps += ["-map", "[a]"]
 

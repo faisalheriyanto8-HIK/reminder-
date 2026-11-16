@@ -1,0 +1,31 @@
+{
+  "name": "mpl-s18-final",
+  "base": "~/Movies/RAFAKA-Clipper/jobs/mpl-s18-final",
+  "audio": "segments",
+  "overlay": {"src": "materi/overlay-bawah.mp4", "height": 710},
+  "pad_color": "#000000",
+  "accent": "#E8175D",
+  "caption_tags": "#MPLS18 #MLBB10TH #MOBILELEGENDS #WEOWNTHIS #MLBB",
+  "videos": [
+    {
+      "title": "Detik-detik Game 7 Grand Final MPL ID S18",
+      "caption": "Detik-detik Game 7 Grand Final MPL ID S18! Bigetron by Vitality vs NAVI, war penentuan juara Mobile Legends paling menegangkan musim ini. Top up di hyperplay.id",
+      "segments": [
+        {"src": "game7-klimaks.mp4", "start": 210.0, "dur": 6.0, "fit": "top"},
+        {"src": "game7-klimaks.mp4", "start": 181.0, "dur": 40.6, "fit": "top"},
+        {"src": "game7-klimaks.mp4", "start": 222.2, "dur": 3.3, "fit": "top", "mute": true},
+        {"src": "game7-klimaks.mp4", "start": 226.5, "dur": 4.5, "fit": "top", "mute": true},
+        {"src": "materi/overlay-bawah.mp4", "start": 0, "dur": 4.0, "fit": "pad", "no_overlay": true, "mute": true}
+      ],
+      "texts": [
+        {"t0": 0, "t1": 6.0, "style": "Hook", "text": "GAME 7 GRAND FINAL MPL ID S18\\NDETIK-DETIK PENENTUAN JUARA!"},
+        {"t0": 6.0, "t1": 50.0, "style": "Label", "text": "MPL ID S18 Grand Finals - Game 7 - NAVI vs BTR"},
+        {"t0": 6.0, "t1": 11.0, "style": "Top", "text": "Lord Evolve datang lagi..."},
+        {"t0": 28.0, "t1": 32.0, "style": "Top", "text": "Semua deg-degan!"},
+        {"t0": 34.0, "t1": 37.5, "style": "Hook", "text": "WAR PENENTUAN!"},
+        {"t0": 46.6, "t1": 50.0, "style": "Hook", "text": "BIGETRON BY VITALITY\\NJUARA MPL ID S18!"},
+        {"t0": 50.0, "t1": 54.4, "style": "Top", "text": "Sampai rebahan\\Nsaking senangnya"}
+      ]
+    }
+  ]
+}
