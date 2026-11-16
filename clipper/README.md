@@ -41,7 +41,12 @@ python3 clipper.py transcript <nama-job>
 python3 clipper.py render <nama-job> --only 2 4
 ```
 
-Hasil ada di `~/Movies/RAFAKA-Clipper/jobs/<nama-job>/out/`: file `01-judul.mp4`, `02-…`, plus `captions.txt` berisi judul hook (dan hashtag) untuk caption posting. Video dan model sengaja disimpan di luar Google Drive supaya tidak ikut ter-sync. Lokasinya bisa diganti lewat `CLIPPER_DATA=/path/lain`. Perintah `render` dan `transcript` cukup diberi nama job, misalnya `python3 clipper.py render indodax-william`.
+**Hasil klip** (`01-judul.mp4`, `02-…`, plus `captions.txt` berisi judul dan hashtag) otomatis masuk ke **Google Drive → My Drive/CLIPPERS/<nama-job>/** kalau folder `CLIPPERS` ada, jadi langsung bisa dibuka dari HP untuk diposting. Kalau folder itu tidak ada, hasil disimpan di `~/Movies/RAFAKA-Clipper/jobs/<nama-job>/out/`.
+
+- `--out /folder/lain`: atur folder tujuan lain (atau pakai env `CLIPPER_OUT`).
+- `--local`: paksa simpan di lokal, bukan di Drive.
+
+**Bahan kerja** (video sumber, transkrip, `clips.json`, model Whisper) tetap di `~/Movies/RAFAKA-Clipper`, di luar Drive supaya file besar tidak ikut ter-sync. Lokasinya bisa diganti lewat `CLIPPER_DATA=/path/lain`. Perintah `render` dan `transcript` cukup diberi nama job, misalnya `python3 clipper.py render indodax-william`.
 
 ### Opsi penting
 
