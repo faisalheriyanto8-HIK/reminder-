@@ -282,9 +282,22 @@ def ass_time(t: float) -> str:
     return f"{int(h)}:{int(m):02d}:{s:05.2f}"
 
 
+def clip_segments(clip: dict) -> list[tuple[float, float]]:
+    """Potongan sumber untuk satu klip. 'segments' = jump cut: [[a,b],[c,d]] disambung berurutan."""
+    segs = [(float(a), float(b)) for a, b in (clip.get("segments") or [[clip["start"], clip["end"]]])]
+    for (a, b), nxt in zip(segs, segs[1:] + [None]):
+        if b <= a or (nxt and nxt[0] < b):
+            die(f"segments klip '{clip.get('title', '')}' harus urut dan tidak tumpang tindih: {segs}")
+    return segs
+
+
 def build_ass(clip: dict, words: list[dict], opt: argparse.Namespace) -> str:
-    s0, e0 = clip["start"], clip["end"]
-    ws = [{**w, "s": w["s"] - s0, "e": w["e"] - s0} for w in words if w["s"] >= s0 - 0.05 and w["e"] <= e0 + 0.05]
+    # geser timestamp kata ke timeline klip (termasuk sambungan jump cut)
+    ws, off = [], 0.0
+    for a, b in clip_segments(clip):
+        ws += [{**w, "s": w["s"] - a + off, "e": w["e"] - a + off}
+               for w in words if w["s"] >= a - 0.05 and w["e"] <= b + 0.05]
+        off += b - a
 
     # kelompokkan per 1-3 kata (maks ~16 huruf) biar nyaman dibaca
     chunks, cur = [], []
@@ -339,16 +352,16 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """ + "\n".join(events) + "\n"
 
 
-def video_filter(mode: str, focus_x: float, ass_name: str) -> str:
-    # ffmpeg dijalankan dengan cwd = folder out, jadi cukup nama file (aman dari spasi/@/: di path)
+def video_filter(mode: str, focus_x: float, ass_name: str, vin: str = "0:v") -> str:
+    # ffmpeg dijalankan dengan cwd = folder job, jadi cukup nama file (aman dari spasi/@/: di path)
     ass = ass_name.replace("'", "")
     if mode == "blur":
-        base = (f"[0:v]split[a][b];"
+        base = (f"[{vin}]split[a][b];"
                 f"[a]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},boxblur=25:3,eq=brightness=-0.08[bg];"
                 f"[b]scale={W}:-2[fg];[bg][fg]overlay=(W-w)/2:(H-h)/2")
     else:  # crop
         fx = min(max(focus_x, 0.0), 1.0)
-        base = (f"[0:v]scale=-2:{H},crop={W}:{H}:(iw-{W})*{fx:.3f}:0")
+        base = (f"[{vin}]scale=-2:{H},crop={W}:{H}:(iw-{W})*{fx:.3f}:0")
     return f"{base},setsar=1,ass='{ass}'[v]"
 
 
@@ -383,14 +396,28 @@ def render(job: Path, opt: argparse.Namespace) -> tuple[list[Path], Path]:
         ass_path = job / f"{name}.ass"  # subtitle sementara tetap lokal (tidak ikut sync Drive)
         ass_path.write_text(build_ass(c, words, opt), encoding="utf-8")
         out = out_dir / f"{name}.mp4"
-        dur = c["end"] - c["start"]
-        log(f"Render {i}/{len(clips)}: {name} ({dur:.0f}s, mode {opt.mode})")
+        segs = clip_segments(c)
+        dur = sum(b - a for a, b in segs)
+        s0, span = segs[0][0], segs[-1][1] - segs[0][0]
+        fx = c.get("focus_x", 0.5)
+        if len(segs) == 1:
+            fc, amap = video_filter(opt.mode, fx, ass_path.name), "0:a?"
+        else:  # jump cut: trim tiap potongan lalu concat, baru di-crop + subtitle
+            parts = [f"[0:v]trim={a - s0:.3f}:{b - s0:.3f},setpts=PTS-STARTPTS[v{k}];"
+                     f"[0:a]atrim={a - s0:.3f}:{b - s0:.3f},asetpts=PTS-STARTPTS[a{k}]"
+                     for k, (a, b) in enumerate(segs)]
+            joins = "".join(f"[v{k}][a{k}]" for k in range(len(segs)))
+            fc = (";".join(parts) + f";{joins}concat=n={len(segs)}:v=1:a=1[vc][ac];"
+                  + video_filter(opt.mode, fx, ass_path.name, vin="vc"))
+            amap = "[ac]"
+        cut = f", {len(segs)} potongan" if len(segs) > 1 else ""
+        log(f"Render {i}/{len(clips)}: {name} ({dur:.0f}s{cut}, mode {opt.mode})")
         t0 = time.time()
         run([
             ffmpeg, "-y", "-loglevel", "error", "-stats",
-            "-ss", f"{c['start']:.3f}", "-t", f"{dur:.3f}", "-i", str(src),
-            "-filter_complex", video_filter(opt.mode, c.get("focus_x", 0.5), ass_path.name),
-            "-map", "[v]", "-map", "0:a?",
+            "-ss", f"{s0:.3f}", "-t", f"{span:.3f}", "-i", str(src),
+            "-filter_complex", fc,
+            "-map", "[v]", "-map", amap,
             "-c:v", "h264_videotoolbox" if opt.fast else "libx264",
             *(["-b:v", "10M"] if opt.fast else ["-preset", "medium", "-crf", "19"]),
             "-pix_fmt", "yuv420p",  # fps ikut sumber (paksa 30 = frame dobel di video 25fps)

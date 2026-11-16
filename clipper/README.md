@@ -75,6 +75,7 @@ python3 clipper.py render <nama-job> --only 2 4
 
 - `start` / `end`: detik di video asli.
 - `focus_x`: posisi crop horizontal (0 = kiri, 0,5 = tengah, 1 = kanan). Pakai ini kalau pembicara tidak di tengah.
+- `segments` (opsional, untuk **jump cut**): buang bagian tengah yang bertele-tele dengan menyambung beberapa potongan, misalnya `"segments": [[827.8, 840.85], [858.1, 882.4]]`. Potongan harus urut dan tidak tumpang tindih, dan subtitle ikut tersambung otomatis. Potong di jeda antar kalimat (lihat timestamp di `words.json`) supaya sambungannya tidak terdengar.
 
 Lalu jalankan `python3 clipper.py render <nama>`.
 
