@@ -1,0 +1,6 @@
+# hasil kerja & model besar — jangan di-commit
+jobs/
+models/
+*.part
+.DS_Store
+__pycache__/

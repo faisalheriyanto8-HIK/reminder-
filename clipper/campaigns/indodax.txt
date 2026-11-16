@@ -1,0 +1,23 @@
+Campaign: Podcast William Sutanto (CEO Indodax) — konten.com
+CPM Rp5.000 / 1K views · mulai dibayar 1.000 views · CPM penuh 10.000 views · maks 500.000 views/video
+Platform: TikTok, Instagram
+Sumber: https://www.youtube.com/watch?v=3bYn1Jlvlig
+
+Narasi yang dicari: persona William Sutanto, Bitcoin, masa depan industri crypto.
+
+DILARANG dipilih:
+- klaim profit pasti, "cuan dijamin", atau ajakan invest
+- sinyal beli/jual atau rekomendasi koin tertentu
+- bahasan hack, hoax, atau sentimen buruk
+- menyebut exchange/broker/sponsor lain selain Indodax
+
+Aturan edit (untuk clipper, bukan untuk AI):
+- subtitle di seluruh video, tidak menutup wajah
+- DILARANG versi horizontal / blur / screen record → pakai --mode crop
+- audio asli, tanpa suara AI/dubbing
+- hook di luar materi podcast < 20% durasi
+- bio akun wajib: "Part of @Konten.com"
+
+#williamsutanto
+#ceoindodax
+#indodax
