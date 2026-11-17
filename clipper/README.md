@@ -77,6 +77,8 @@ python3 clipper.py render <nama-job> --only 2 4
 - `focus_x`: posisi crop horizontal (0 = kiri, 0,5 = tengah, 1 = kanan). Pakai ini kalau pembicara tidak di tengah.
 - `segments` (opsional, untuk **jump cut**): buang bagian tengah yang bertele-tele dengan menyambung beberapa potongan, misalnya `"segments": [[827.8, 840.85], [858.1, 882.4]]`. Potongan harus urut dan tidak tumpang tindih, dan subtitle ikut tersambung otomatis. Potong di jeda antar kalimat (lihat timestamp di `words.json`) supaya sambungannya tidak terdengar.
 
+- `shots` (opsional, untuk **podcast multi-kamera**): posisi crop yang berganti setiap kamera pindah, misalnya `"shots": [[1635.9, 0.44], [1640.91, 0.05], [1649.65, 0.41]]` (detik di video asli, lalu `focus_x` sejak detik itu). Waktu pergantian kamera bisa dicari dengan `ffmpeg -ss <mulai> -t <durasi> -i source.mp4 -vf "select='gt(scene,0.12)',metadata=print" -an -f null -`.
+
 Lalu jalankan `python3 clipper.py render <nama>`.
 
 ## Konten.com (marketplace clipping Indonesia)
