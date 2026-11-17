@@ -352,17 +352,36 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """ + "\n".join(events) + "\n"
 
 
-def video_filter(mode: str, focus_x: float, ass_name: str, vin: str = "0:v") -> str:
+def video_filter(mode: str, focus_x: float, ass_name: str, vin: str = "0:v",
+                 fx_expr: str | None = None) -> str:
     # ffmpeg dijalankan dengan cwd = folder job, jadi cukup nama file (aman dari spasi/@/: di path)
     ass = ass_name.replace("'", "")
     if mode == "blur":
         base = (f"[{vin}]split[a][b];"
                 f"[a]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},boxblur=25:3,eq=brightness=-0.08[bg];"
                 f"[b]scale={W}:-2[fg];[bg][fg]overlay=(W-w)/2:(H-h)/2")
-    else:  # crop
-        fx = min(max(focus_x, 0.0), 1.0)
-        base = (f"[{vin}]scale=-2:{H},crop={W}:{H}:(iw-{W})*{fx:.3f}:0")
+    else:  # crop; fx_expr = posisi crop yang berubah per shot (lihat shots_expr)
+        x = fx_expr or f"{min(max(focus_x, 0.0), 1.0):.3f}"
+        base = (f"[{vin}]scale=-2:{H},crop={W}:{H}:'(iw-{W})*({x})':0")
     return f"{base},setsar=1,ass='{ass}'[v]"
+
+
+def shots_expr(shots: list, segs: list[tuple[float, float]], default: float) -> str | None:
+    """'shots': [[detik_sumber, focus_x], ...] untuk podcast multi-kamera: posisi crop berganti
+    tiap kali kamera pindah. Detik sumber dipetakan ke timeline klip (ikut jump cut)."""
+    if not shots:
+        return None
+    def to_clip(t: float) -> float:
+        off = 0.0
+        for a, b in segs:
+            if t < b:
+                return off + max(t - a, 0.0)
+            off += b - a
+        return off
+    expr = f"{min(max(default, 0.0), 1.0):.3f}"
+    for t, fx in sorted((float(t), float(f)) for t, f in shots):
+        expr = f"if(gte(t,{to_clip(t):.3f}),{min(max(fx, 0.0), 1.0):.3f},{expr})"
+    return expr
 
 
 def output_dir(job: Path, opt: argparse.Namespace) -> Path:
@@ -400,15 +419,16 @@ def render(job: Path, opt: argparse.Namespace) -> tuple[list[Path], Path]:
         dur = sum(b - a for a, b in segs)
         s0, span = segs[0][0], segs[-1][1] - segs[0][0]
         fx = c.get("focus_x", 0.5)
+        fxe = shots_expr(c.get("shots"), segs, fx)
         if len(segs) == 1:
-            fc, amap = video_filter(opt.mode, fx, ass_path.name), "0:a?"
+            fc, amap = video_filter(opt.mode, fx, ass_path.name, fx_expr=fxe), "0:a?"
         else:  # jump cut: trim tiap potongan lalu concat, baru di-crop + subtitle
             parts = [f"[0:v]trim={a - s0:.3f}:{b - s0:.3f},setpts=PTS-STARTPTS[v{k}];"
                      f"[0:a]atrim={a - s0:.3f}:{b - s0:.3f},asetpts=PTS-STARTPTS[a{k}]"
                      for k, (a, b) in enumerate(segs)]
             joins = "".join(f"[v{k}][a{k}]" for k in range(len(segs)))
             fc = (";".join(parts) + f";{joins}concat=n={len(segs)}:v=1:a=1[vc][ac];"
-                  + video_filter(opt.mode, fx, ass_path.name, vin="vc"))
+                  + video_filter(opt.mode, fx, ass_path.name, vin="vc", fx_expr=fxe))
             amap = "[ac]"
         cut = f", {len(segs)} potongan" if len(segs) > 1 else ""
         log(f"Render {i}/{len(clips)}: {name} ({dur:.0f}s{cut}, mode {opt.mode})")
@@ -437,7 +457,7 @@ def render(job: Path, opt: argparse.Namespace) -> tuple[list[Path], Path]:
     cap = out_dir / "captions.txt"
     cap.write_text("\n\n".join(
         f"{i:02d}. {c.get('title','')} {tags}".rstrip()
-        + f"\n   ({fmt_ts(c['start'])}–{fmt_ts(c['end'])}) {c.get('reason','')}"
+        + f"\n   ({fmt_ts(clip_segments(c)[0][0])}–{fmt_ts(clip_segments(c)[-1][1])}) {c.get('reason','')}"
         for i, c in enumerate(clips, 1)), encoding="utf-8")
     return outputs, out_dir
 
