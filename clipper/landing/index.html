@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RAFAKA Clipping Studio · Jasa Clipping Podcast</title>
+<meta name="description" content="Jasa clipping podcast, kajian, dan webinar jadi video 9:16 bersubtitle untuk TikTok, Reels, dan YouTube Shorts. Mulai Rp30rb per klip. 2 klip contoh gratis.">
+<meta name="theme-color" content="#041C3E">
+<link rel="canonical" href="https://rafakadigital.id/clipping/">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="logo.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RAFAKA Clipping Studio">
+<meta property="og:title" content="RAFAKA Clipping Studio · Jasa Clipping Podcast">
+<meta property="og:description" content="Satu video panjang jadi 5–10 klip siap posting. Mulai Rp30rb per klip, 2 klip contoh gratis.">
+<meta property="og:url" content="https://rafakadigital.id/clipping/">
+<meta property="og:image" content="https://rafakadigital.id/clipping/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: landing page editorial — hero dengan mock layar 9:16, fitur, paket, contoh hasil, alur, ketentuan + kontak. */
+:root {
+  --paper: #F4F6FA;
+  --card: #FFFFFF;
+  --ink: #041C3E;
+  --muted: #56647A;
+  --line: #D5DCE8;
+  --hi: #F77F0A;
+  --hi-ink: #041C3E;
+  --accent: #B45200;
+  --screen: #041C3E;
+  --frame: #041C3E;
+  --display: "Archivo Black", "Arial Black", Impact, sans-serif;
+  --body: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #06142B; --card: #0B2142; --ink: #E9EEF7; --muted: #A2B2CC;
+    --line: #1F3F72; --accent: #FF9A3D; --screen: #020C1D; --frame: #1F3F72; color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; margin: 0; }
+img { max-width: 100%; }
+.wrap {
+  max-width: 1080px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+section { padding-block: 56px; border-top: 1px solid var(--line); }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+h2 { font-family: var(--display); font-weight: 400; font-size: clamp(26px, 4vw, 34px); line-height: 1.15; letter-spacing: -0.01em; margin-top: 6px; }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.lead { color: var(--muted); max-width: 62ch; margin: 10px 0 0; }
+mark { background: var(--hi); color: var(--hi-ink); padding: 0 .18em; border-radius: 3px; }
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--hi); outline-offset: 2px; border-radius: 4px; }
+
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 18px 0; }
+.brand { font-weight: 700; letter-spacing: .04em; font-size: 14px; display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
+.brand img { width: 48px; height: 48px; flex: none; }
+.brand b { font-family: var(--display); font-weight: 400; letter-spacing: .03em; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; font: 700 15px var(--body); text-decoration: none;
+  background: var(--hi); color: var(--hi-ink); border: 0; border-radius: 10px; padding: 11px 18px; cursor: pointer;
+}
+.btn.ghost { background: transparent; color: var(--ink); border: 2px solid var(--line); }
+
+.hero { display: grid; grid-template-columns: 1.25fr .75fr; gap: 48px; align-items: center; padding-block: 40px 64px; }
+.hero h1 { font-family: var(--display); font-weight: 400; font-size: clamp(34px, 6vw, 58px); line-height: 1.05; letter-spacing: -0.015em; }
+.hero p { font-size: 18px; color: var(--muted); max-width: 52ch; margin: 18px 0 0; }
+.facts { display: flex; flex-wrap: wrap; gap: 10px; margin: 26px 0 0; padding: 0; list-style: none; }
+.facts li { border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 6px 14px; font-size: 14px; font-weight: 600; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+.phone {
+  width: 100%; max-width: 270px; aspect-ratio: 9 / 16; justify-self: center;
+  background: var(--screen); border-radius: 28px; border: 6px solid var(--frame);
+  position: relative; overflow: hidden; box-shadow: 0 30px 60px -30px rgba(4, 28, 62, .55);
+}
+.phone .shot {
+  position: absolute; inset: 24% 0 36%;
+  background:
+    radial-gradient(circle at 50% 40%, #E2BE98 0 14%, transparent 14.5%),
+    radial-gradient(ellipse at 50% 98%, #2F4A6B 0 42%, transparent 43%),
+    linear-gradient(160deg, #3A4A5E, #1B2636);
+}
+.phone .hook {
+  position: absolute; top: 9%; left: 8%; right: 8%; text-align: center;
+  font-family: var(--display); color: #041C3E; font-size: 15px; line-height: 1.2;
+  background: #F77F0A; padding: 7px 8px; border-radius: 4px;
+}
+.phone .cap {
+  position: absolute; left: 6%; right: 6%; bottom: 17%; text-align: center;
+  font-family: var(--display); font-size: 20px; line-height: 1.15; color: #fff;
+  text-shadow: 0 2px 0 #000, 0 0 6px rgba(0,0,0,.8);
+}
+.cap span { transition: color .15s; }
+.cap span.on { color: var(--hi); }
+.phone .bar { position: absolute; left: 12px; right: 12px; bottom: 30px; height: 3px; background: #2A3648; border-radius: 2px; }
+.phone .bar i { display: block; height: 100%; width: 38%; background: var(--hi); border-radius: 2px; }
+.phone .tc { position: absolute; left: 0; right: 0; bottom: 0; padding: 8px 12px 12px; font-family: var(--mono); font-size: 10px; color: #9FB0C6; display: flex; justify-content: space-between; }
+
+.feat { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 32px; margin-top: 32px; }
+.feat h3 { font-size: 17px; font-weight: 700; }
+.feat p { margin: 6px 0 0; color: var(--muted); font-size: 15px; }
+
+.plans { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 32px; align-items: start; }
+.plan { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px 20px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.plan.pick { border: 2px solid var(--hi); }
+.plan .tag { align-self: flex-start; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; background: var(--hi); color: var(--hi-ink); padding: 3px 8px; border-radius: 4px; }
+.plan h3 { font-size: 18px; }
+.price { font-family: var(--display); font-size: 28px; line-height: 1; font-variant-numeric: tabular-nums; }
+.price small { font-family: var(--body); font-size: 13px; color: var(--muted); font-weight: 500; }
+.per { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.plan ul { margin: 0; padding-left: 18px; font-size: 14.5px; display: grid; gap: 4px; }
+.addons { margin-top: 28px; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 460px; font-size: 15px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+th { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+th.n, td.n { text-align: right; }
+td.n { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+
+.works { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 32px; }
+.work { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.work .k { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.work h3 { font-size: 17px; }
+.work p { margin: 0; color: var(--muted); font-size: 14.5px; }
+.work a { font-weight: 600; font-size: 14.5px; }
+.note { font-size: 14px; color: var(--muted); margin: 16px 0 0; }
+
+.steps { list-style: none; padding: 0; margin: 32px 0 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 20px; counter-reset: s; }
+.steps li { counter-increment: s; border-top: 3px solid var(--hi); padding-top: 12px; min-width: 0; }
+.steps li::before { content: counter(s, decimal-leading-zero); font-family: var(--mono); font-size: 13px; color: var(--muted); display: block; }
+.steps b { display: block; margin-top: 4px; }
+.steps span { font-size: 14.5px; color: var(--muted); }
+
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 8px; align-items: start; }
+.terms { margin: 16px 0 0; padding-left: 18px; display: grid; gap: 8px; font-size: 15px; }
+.contact { background: #041C3E; color: #fff; border-radius: 16px; padding: 26px; display: grid; gap: 14px; min-width: 0; border: 2px solid var(--hi); }
+.contact h3 { font-family: var(--display); font-weight: 400; font-size: 24px; }
+.contact p { margin: 0; color: #C9D4E6; }
+.msg { background: rgba(255,255,255,.08); border-radius: 10px; padding: 14px; font-size: 14.5px; white-space: pre-line; user-select: all; }
+.contact .row { display: flex; flex-wrap: wrap; gap: 10px; }
+.contact .btn.ghost { color: #fff; border-color: rgba(255,255,255,.35); }
+footer { padding-block: 28px 40px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+
+@media (max-width: 900px) {
+  .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  .hero { grid-template-columns: 1fr; gap: 36px; }
+  .feat, .works, .two { grid-template-columns: 1fr; }
+  .top .btn { display: none; }
+}
+@media (max-width: 460px) { .plans, .steps { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .cap span { transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="top">
+    <a class="brand" href="./"><img src="logo.png" alt="Logo RAFAKA Clipping Studio" width="48" height="48"><span><b>RAFAKA</b> Clipping Studio</span></a>
+    <a class="btn" href="https://ig.me/m/rafakaclippingstudio" target="_blank" rel="noopener">DM Instagram</a>
+  </div>
+  <header class="hero">
+    <div>
+      <h1>Satu video panjang jadi <mark>5–10 klip</mark> siap posting.</h1>
+      <p>Kami potong podcast, kajian, webinar, atau live streaming kamu menjadi video vertikal 9:16 bersubtitle untuk TikTok, Instagram Reels, dan YouTube Shorts.</p>
+      <ul class="facts">
+        <li>1080 × 1920</li>
+        <li>Subtitle kata per kata</li>
+        <li>Selesai 2 × 24 jam</li>
+      </ul>
+      <div class="cta-row">
+        <a class="btn" href="#kontak">Minta 2 klip contoh gratis</a>
+        <a class="btn ghost" href="#paket">Lihat paket</a>
+      </div>
+    </div>
+    <div class="phone" role="img" aria-label="Contoh tampilan klip: teks hook di atas dan subtitle yang menyala per kata">
+      <div class="hook">HOOK KUAT DI<br>2 DETIK PERTAMA</div>
+      <div class="shot"></div>
+      <div class="cap" id="cap"><span class="on">KATA</span> <span>YANG</span> <span>DIUCAPKAN</span> <span>LANGSUNG</span> <span>MENYALA</span></div>
+      <div class="bar"><i></i></div>
+      <div class="tc"><span>25:52.3 → 26:42.2</span><span>0:49</span></div>
+    </div>
+  </header>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Yang kamu dapat di setiap klip</div>
+    <h2>Dibuat supaya penonton berhenti scroll</h2>
+    <div class="feat">
+      <div><h3>Momen terbaik dipilihkan</h3><p>Video kamu ditranskrip, lalu kami cari bagian yang punya hook kuat, utuh, dan bisa dipahami tanpa konteks.</p></div>
+      <div><h3>Subtitle animasi</h3><p>Kata yang sedang diucapkan menyala oranye. Penonton tetap paham walau menonton tanpa suara.</p></div>
+      <div><h3>Teks hook di awal</h3><p>Judul singkat di atas video untuk menahan penonton di 2 detik pertama.</p></div>
+      <div><h3>Jump cut</h3><p>Jeda panjang dan bagian bertele-tele dibuang, jadi klip terasa padat.</p></div>
+      <div><h3>Crop mengikuti kamera</h3><p>Podcast multi-kamera tetap rapi: posisi crop ikut berpindah setiap kamera berganti, jadi pembicara selalu di tengah layar.</p></div>
+      <div><h3>Siap posting</h3><p>Judul, caption, dan hashtag disiapkan per klip. Semua file dikirim lewat Google Drive.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="paket">
+  <div class="wrap">
+    <div class="eyebrow">Paket &amp; harga</div>
+    <h2>Pilih sesuai jadwal posting kamu</h2>
+    <p class="lead">Harga sudah termasuk pemilihan momen, subtitle, hook, caption, dan 1× revisi per klip. Klip paket bulanan bisa diambil dari satu atau beberapa video sumber.</p>
+    <div class="plans">
+      <div class="plan">
+        <h3>Coba Dulu</h3>
+        <div class="price">Rp150rb</div>
+        <div class="per">5 klip · Rp30rb/klip</div>
+        <ul><li>Sekali order</li><li>1 video sumber</li><li>Cocok untuk tes gaya</li></ul>
+      </div>
+      <div class="plan">
+        <h3>Starter</h3>
+        <div class="price">Rp350rb <small>/bulan</small></div>
+        <div class="per">10 klip · Rp35rb/klip</div>
+        <ul><li>±2–3 klip per minggu</li><li>Caption &amp; hashtag</li><li>Dikirim bertahap tiap minggu</li></ul>
+      </div>
+      <div class="plan pick">
+        <span class="tag">Paling pas</span>
+        <h3>Growth</h3>
+        <div class="price">Rp600rb <small>/bulan</small></div>
+        <div class="per">20 klip · Rp30rb/klip</div>
+        <ul><li>±5 klip per minggu</li><li>Prioritas antrean</li><li>Saran jadwal posting</li></ul>
+      </div>
+      <div class="plan">
+        <h3>Pro</h3>
+        <div class="price">Rp1,2jt <small>/bulan</small></div>
+        <div class="per">30 klip · termasuk posting</div>
+        <ul><li>1 klip setiap hari</li><li>Kami posting ke TikTok, Reels &amp; Shorts</li><li>Rekap views bulanan</li></ul>
+      </div>
+    </div>
+    <div class="addons">
+      <table>
+        <thead><tr><th>Tambahan</th><th>Keterangan</th><th class="n">Harga</th></tr></thead>
+        <tbody>
+          <tr><td>Klip satuan</td><td>Tanpa paket, minimal 3 klip</td><td class="n">Rp40rb/klip</td></tr>
+          <tr><td>Ekspres</td><td>Selesai dalam 24 jam</td><td class="n">+Rp10rb/klip</td></tr>
+          <tr><td>Jasa posting</td><td>Untuk paket Starter &amp; Growth</td><td class="n">+Rp100rb/bulan</td></tr>
+          <tr><td>Revisi tambahan</td><td>Setelah revisi gratis terpakai</td><td class="n">Rp10rb/klip</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Contoh hasil</div>
+    <h2>Format yang sudah kami kerjakan</h2>
+    <div class="works">
+      <div class="work">
+        <div class="k">PODCAST · 0:49 · crop + subtitle</div>
+        <h3>CEO Indodax beli Ethereum 30 sen, dijual di 20 dolar</h3>
+        <p>Satu cerita personal dari podcast panjang, dipotong utuh dari menit 25:52 sampai 26:42.</p>
+        <a href="https://www.tiktok.com/@faisalheriyanto77/video/7708804643811314952" target="_blank" rel="noopener">Tonton di TikTok ↗</a>
+      </div>
+      <div class="work">
+        <div class="k">EDUKASI APLIKASI · 0:45 · layout blur</div>
+        <h3>Biar nggak lupa nyicil, Bevan pakai fitur Auto Invest</h3>
+        <p>Video landscape dengan layar aplikasi di sisi frame, ditata ulang ke 9:16 tanpa memotong layarnya.</p>
+        <a href="https://www.tiktok.com/@faisalheriyanto77/video/7708947730311302418" target="_blank" rel="noopener">Tonton di TikTok ↗</a>
+      </div>
+      <div class="work">
+        <div class="k">PROMO EVENT · 0:24 · footage + banner</div>
+        <h3>Aul, Mingse &amp; Koplo Disko di Miranda Color Corner</h3>
+        <p>Footage event, banner resmi tampil utuh, teks hook, dan ajakan datang di akhir video.</p>
+        <a href="https://www.tiktok.com/@faisalheriyanto77/video/7708814751303814408" target="_blank" rel="noopener">Tonton di TikTok ↗</a>
+      </div>
+      <div class="work">
+        <div class="k">GAMING · 0:58 · highlight + overlay sponsor</div>
+        <h3>Detik-detik Game 7 Grand Final MPL ID S18</h3>
+        <p>Momen war penentu juara dari siaran panjang, dengan overlay sponsor di bawah dan penutup bermusik.</p>
+        <a href="https://www.tiktok.com/@faisalheriyanto77/video/7708831256536009992" target="_blank" rel="noopener">Tonton di TikTok ↗</a>
+      </div>
+    </div>
+    <p class="note">Contoh di atas dibuat untuk campaign clipping resmi di konten.com, dari materi yang disediakan pemilik kontennya.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Cara order</div>
+    <h2>Dari link video sampai file siap posting</h2>
+    <ol class="steps">
+      <li><b>Kirim link</b><span>YouTube, Google Drive, atau file video. Ceritakan target penonton kamu.</span></li>
+      <li><b>Kami kurasi</b><span>Video ditranskrip dan momen terkuat dipilih.</span></li>
+      <li><b>Draft dikirim</b><span>Dalam 2 × 24 jam lewat Google Drive.</span></li>
+      <li><b>Revisi</b><span>1× gratis per klip: geser potongan, ganti hook, ubah teks.</span></li>
+      <li><b>Final</b><span>File 1080p plus caption &amp; hashtag. Paket Pro langsung kami posting.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section id="kontak">
+  <div class="wrap">
+    <div class="two">
+      <div>
+        <div class="eyebrow">Ketentuan</div>
+        <h2>Sebelum order</h2>
+        <ul class="terms">
+          <li>Video yang dikirim milik kamu sendiri, atau kamu punya izin untuk memakainya.</li>
+          <li>Order sekali: DP 50%, pelunasan saat file final dikirim. Paket bulanan dibayar di awal bulan.</li>
+          <li>Pembayaran lewat transfer bank atau e-wallet.</li>
+          <li>Video sumber idealnya 20 menit sampai 2 jam. Yang lebih panjang tetap bisa, diskusikan dulu.</li>
+          <li>Kami tidak menjanjikan jumlah views. Yang kami jamin adalah kualitas klip dan ketepatan waktu.</li>
+        </ul>
+      </div>
+      <div class="contact">
+        <h3>Minta 2 klip contoh gratis</h3>
+        <p>Salin pesan ini, lengkapi, lalu kirim lewat DM Instagram. Kami balas di hari yang sama.</p>
+        <div class="msg" id="msg">Halo RAFAKA, saya mau coba jasa clipping.
+Jenis konten: (podcast / kajian / webinar / lainnya)
+Link video:
+Paket yang diminati:</div>
+        <div class="row">
+          <button type="button" class="btn" id="copy">Salin pesan</button>
+          <a class="btn ghost" href="https://ig.me/m/rafakaclippingstudio" target="_blank" rel="noopener">Buka DM @rafakaclippingstudio ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>RAFAKA Clipping Studio · bagian dari <a href="https://rafakadigital.id">RAFAKA DIGITAL</a></span>
+    <span>Instagram <a href="https://instagram.com/rafakaclippingstudio" target="_blank" rel="noopener">@rafakaclippingstudio</a> · Harga berlaku November 2026</span>
+  </div>
+</footer>
+
+<script src="app.js" defer></script>
+</body>
+</html>
