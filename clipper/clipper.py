@@ -309,6 +309,8 @@ def build_ass(clip: dict, words: list[dict], opt: argparse.Namespace) -> str:
             cur = []
     if cur:
         chunks.append(cur)
+    if not getattr(opt, "subs", True):  # sumber sudah punya subtitle bawaan
+        chunks = []
 
     hl = opt.highlight  # BGR ASS
     events = []
@@ -345,7 +347,7 @@ ScaledBorderAndShadow: yes
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
 Style: Cap,{opt.font},{opt.font_size},&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,1,0,0,0,100,100,1,0,1,7,3,2,80,80,{margin_v},1
-Style: Hook,{opt.font},76,&H00000000,&H00000000,&H00FFFFFF,&H00FFFFFF,1,0,0,0,100,100,0,0,3,18,0,8,90,90,260,1
+Style: Hook,{opt.font},76,&H00000000,&H00000000,&H00FFFFFF,&H00FFFFFF,1,0,0,0,100,100,0,0,3,18,0,8,90,90,{getattr(opt, 'hook_margin', 260)},1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
@@ -480,6 +482,10 @@ def add_render_opts(p: argparse.ArgumentParser) -> None:
     g.add_argument("--highlight", default="&H0000E5FF&", help="warna kata aktif, format ASS &HBBGGRR& (default kuning)")
     g.add_argument("--no-upper", dest="upper", action="store_false", help="jangan pakai huruf kapital")
     g.add_argument("--hook", action="store_true", help="tampilkan teks hook di atas selama 3.5 detik pertama")
+    g.add_argument("--hook-margin", type=int, default=260,
+                   help="jarak kotak hook dari atas layar (px, default 260)")
+    g.add_argument("--no-subs", dest="subs", action="store_false",
+                   help="tanpa subtitle (untuk materi brand yang sudah punya subtitle bawaan)")
     g.add_argument("--fast", action="store_true", help="encode pakai hardware Mac (lebih cepat, file lebih besar)")
     g.add_argument("--keep-ass", action="store_true", help="simpan file subtitle .ass")
     g.add_argument("--out", help="folder induk hasil klip (default: Google Drive 'My Drive/CLIPPERS' kalau ada)")

@@ -58,6 +58,8 @@ python3 clipper.py render <nama-job> --only 2 4
 | `--mode crop` | isi penuh 9:16, kiri-kanan dipotong (default) |
 | `--mode blur` | video utuh di tengah + latar blur, cocok kalau ada 2 orang di frame |
 | `--hook` | teks hook hitam-putih di atas selama 3,5 detik pertama |
+| `--hook-margin 70` | jarak kotak hook dari atas layar (px, default 260); kecilkan kalau menutupi teks bawaan video |
+| `--no-subs` | tanpa subtitle, untuk materi brand yang sudah punya subtitle bawaan (cukup hook saja) |
 | `--words-per-line 3` | jumlah kata per baris subtitle |
 | `--caption-y 0.70` | posisi subtitle (0 = atas, 1 = bawah) |
 | `--highlight "&H0000E5FF&"` | warna kata aktif (format ASS `&HBBGGRR&`); hijau: `&H0000FF00&` |
