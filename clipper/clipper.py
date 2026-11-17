@@ -353,9 +353,14 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 
 
 def video_filter(mode: str, focus_x: float, ass_name: str, vin: str = "0:v",
-                 fx_expr: str | None = None) -> str:
+                 fx_expr: str | None = None, src_crop: list | None = None) -> str:
     # ffmpeg dijalankan dengan cwd = folder job, jadi cukup nama file (aman dari spasi/@/: di path)
     ass = ass_name.replace("'", "")
+    pre = ""
+    if src_crop:  # [x, y, w, h] pecahan frame sumber, mis. buang subtitle bawaan di bawah
+        x, y, w, h = (float(v) for v in src_crop)
+        pre = f"[{vin}]crop=iw*{w}:ih*{h}:iw*{x}:ih*{y}[pc];"
+        vin = "pc"
     if mode == "blur":
         base = (f"[{vin}]split[a][b];"
                 f"[a]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},boxblur=25:3,eq=brightness=-0.08[bg];"
@@ -363,7 +368,7 @@ def video_filter(mode: str, focus_x: float, ass_name: str, vin: str = "0:v",
     else:  # crop; fx_expr = posisi crop yang berubah per shot (lihat shots_expr)
         x = fx_expr or f"{min(max(focus_x, 0.0), 1.0):.3f}"
         base = (f"[{vin}]scale=-2:{H},crop={W}:{H}:'(iw-{W})*({x})':0")
-    return f"{base},setsar=1,ass='{ass}'[v]"
+    return f"{pre}{base},setsar=1,ass='{ass}'[v]"
 
 
 def shots_expr(shots: list, segs: list[tuple[float, float]], default: float) -> str | None:
@@ -421,14 +426,14 @@ def render(job: Path, opt: argparse.Namespace) -> tuple[list[Path], Path]:
         fx = c.get("focus_x", 0.5)
         fxe = shots_expr(c.get("shots"), segs, fx)
         if len(segs) == 1:
-            fc, amap = video_filter(opt.mode, fx, ass_path.name, fx_expr=fxe), "0:a?"
+            fc, amap = video_filter(opt.mode, fx, ass_path.name, fx_expr=fxe, src_crop=c.get("src_crop")), "0:a?"
         else:  # jump cut: trim tiap potongan lalu concat, baru di-crop + subtitle
             parts = [f"[0:v]trim={a - s0:.3f}:{b - s0:.3f},setpts=PTS-STARTPTS[v{k}];"
                      f"[0:a]atrim={a - s0:.3f}:{b - s0:.3f},asetpts=PTS-STARTPTS[a{k}]"
                      for k, (a, b) in enumerate(segs)]
             joins = "".join(f"[v{k}][a{k}]" for k in range(len(segs)))
             fc = (";".join(parts) + f";{joins}concat=n={len(segs)}:v=1:a=1[vc][ac];"
-                  + video_filter(opt.mode, fx, ass_path.name, vin="vc", fx_expr=fxe))
+                  + video_filter(opt.mode, fx, ass_path.name, vin="vc", fx_expr=fxe, src_crop=c.get("src_crop")))
             amap = "[ac]"
         cut = f", {len(segs)} potongan" if len(segs) > 1 else ""
         log(f"Render {i}/{len(clips)}: {name} ({dur:.0f}s{cut}, mode {opt.mode})")

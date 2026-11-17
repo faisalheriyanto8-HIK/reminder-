@@ -79,6 +79,8 @@ python3 clipper.py render <nama-job> --only 2 4
 
 - `shots` (opsional, untuk **podcast multi-kamera**): posisi crop yang berganti setiap kamera pindah, misalnya `"shots": [[1635.9, 0.44], [1640.91, 0.05], [1649.65, 0.41]]` (detik di video asli, lalu `focus_x` sejak detik itu). Waktu pergantian kamera bisa dicari dengan `ffmpeg -ss <mulai> -t <durasi> -i source.mp4 -vf "select='gt(scene,0.12)',metadata=print" -an -f null -`.
 
+- `src_crop` (opsional): potong frame sumber dulu sebelum di-crop 9:16, dalam pecahan `[x, y, lebar, tinggi]`. Contoh `"src_crop": [0, 0, 1, 0.8]` membuang 20% bagian bawah, berguna kalau video sumber sudah punya subtitle bawaan supaya tidak dobel dengan subtitle kita.
+
 Lalu jalankan `python3 clipper.py render <nama>`.
 
 ## Konten.com (marketplace clipping Indonesia)
