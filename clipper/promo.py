@@ -104,10 +104,15 @@ def seg_filter(k: int, seg: dict, pad_color: str, area_bottom: int = 0) -> str:
         body = (f"{src}scale={W}:{ah}:force_original_aspect_ratio=increase,crop={W}:{ah}:(iw-{W})*{fx:.3f}:0,"
                 f"pad={W}:{H}:0:0:color=black")
     elif fit == "blur":    # utuh di tengah, latar blur dari video yang sama
+        # "zoom" > 1: perbesar video landscape lalu potong kiri-kanan (posisi pakai focus_x),
+        # supaya wajah lebih besar tapi elemen penting di sisi frame tetap kelihatan.
+        z = float(seg.get("zoom", 1.0))
+        fg = (f"scale={W}:{H}:force_original_aspect_ratio=decrease" if z <= 1.0 else
+              f"scale={int(W * z) // 2 * 2}:-2,crop={W}:ih:(iw-{W})*{fx:.3f}:0")
         body = (f"{src}split[b{k}][f{k}];"
                 f"[b{k}]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},"
                 f"boxblur=30:3,eq=brightness=-0.12[bg{k}];"
-                f"[f{k}]scale={W}:{H}:force_original_aspect_ratio=decrease[fg{k}];"
+                f"[f{k}]{fg}[fg{k}];"
                 f"[bg{k}][fg{k}]overlay=(W-w)/2:(H-h)/2")
     elif fit == "pad":     # utuh di tengah, latar warna polos (untuk banner resmi)
         body = (f"{src}scale={W}:{H}:force_original_aspect_ratio=decrease,"

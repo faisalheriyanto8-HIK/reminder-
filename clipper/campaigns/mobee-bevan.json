@@ -1,0 +1,33 @@
+{
+  "name": "mobee-bevan",
+  "base": "~/Movies/RAFAKA-Clipper/jobs/mobee-bevan",
+  "audio": "segments",
+  "accent": "#0FA894",
+  "caption_tags": "#Mobee #deversifikasiaset #Belisahamus #mobeeclips",
+  "videos": [
+    {
+      "title": "Biar nggak lupa nyicil Bevan pakai Auto Invest Mobee",
+      "caption": "Biar nggak lupa nyicil, Bevan pakai fitur Auto Invest di Mobee. Bisa pilih basket Bitcoin, stablecoin, gold, sampai top 10 US stock, terus atur jadwal harian, mingguan, atau bulanan. Bukan ajakan beli, DYOR ya!",
+      "segments": [
+        {"src": "materi/auto-invest.mp4", "start": 0.1, "dur": 45.32, "fit": "blur", "zoom": 1.3, "focus_x": 0.15}
+      ],
+      "texts": [
+        {"t0": 0, "t1": 3.6, "style": "Hook", "text": "BIAR NGGAK LUPA NYICIL,\\NBEVAN PAKAI FITUR INI"},
+        {"t0": 3.6, "t1": 45.42, "style": "Top", "text": "Fitur Auto Invest di Mobee"},
+        {"t0": 0, "t1": 45.42, "style": "Bottom", "text": "Bukan ajakan beli • DYOR"}
+      ]
+    },
+    {
+      "title": "Beli saham Apple dan Nvidia lewat aplikasi crypto",
+      "caption": "Sekarang beli saham US kayak Apple, Nvidia, sampai Microsoft bisa lewat aplikasi crypto? Bevan pakai tokenized US stocks di Mobee buat diversifikasi aset. Bukan ajakan beli, DYOR ya!",
+      "segments": [
+        {"src": "materi/us-stock.mp4", "start": 0, "dur": 67.8, "fit": "blur", "zoom": 1.3, "focus_x": 0.5}
+      ],
+      "texts": [
+        {"t0": 0, "t1": 4.0, "style": "Hook", "text": "BELI SAHAM APPLE & NVIDIA\\NLEWAT APLIKASI CRYPTO?"},
+        {"t0": 4.0, "t1": 67.8, "style": "Top", "text": "Tokenized US Stocks di Mobee"},
+        {"t0": 0, "t1": 67.8, "style": "Bottom", "text": "Bukan ajakan beli • DYOR"}
+      ]
+    }
+  ]
+}
